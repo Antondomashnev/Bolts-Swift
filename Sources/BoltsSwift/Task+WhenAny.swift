@@ -35,8 +35,13 @@ extension Task {
             if taskCompletionSource.task.completed {
                 break
             }
-            task.continueWith { task in
-                taskCompletionSource.trySet(result: ())
+            task.continueWith { continuedTask in
+                if let error = continuedTask.error {
+                    taskCompletionSource.trySet(error: error)
+                }
+                else {
+                    taskCompletionSource.trySet(result: ())
+                }
             }
         }
         return taskCompletionSource.task

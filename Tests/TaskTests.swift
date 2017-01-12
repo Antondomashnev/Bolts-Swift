@@ -579,6 +579,7 @@ class TaskTests: XCTestCase {
         let task = Task.whenAny(tasks).continueWith { task in
             XCTAssertNotEqual(count, Int32(tasks.count))
             XCTAssertTrue(task.completed)
+            XCTAssertNotNil(task.error)
             XCTAssertFalse(task.faulted)
             XCTAssertFalse(task.cancelled)
             expectation.fulfill()
